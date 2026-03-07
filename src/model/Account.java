@@ -1,0 +1,64 @@
+package model;
+
+public class Account {
+    private String userName;
+    private String password;
+    private double age;
+    private double balance;
+    private String phoneNumber;
+
+    public Account() {
+    }
+
+    public Account(String userName, String password, double age, String phoneNumber) {
+        this.userName = userName;
+        this.password = password;
+        this.age = age;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Account(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public double getAge() {
+        return age;
+    }
+
+    public void setAge(double age) {
+        this.age = age;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+}
