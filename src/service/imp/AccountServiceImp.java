@@ -1,41 +1,37 @@
 package service.imp;
 
+import model.Account;
+import model.EWalletSystem;
 import service.AccountService;
 
-import java.util.Scanner;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 public class AccountServiceImp implements AccountService {
+
+    private EWalletSystem eWalletSystem;
+
     @Override
-    public void startProgram() {
-        System.out.println("-------------------Welcome To E-wallet-------------------");
-        Scanner scanner = new Scanner(System.in);
-        int numberOfAttempts = 0;
-        while (true){
-            System.out.println("1) Login        2) Signup       3) Exit");
-            System.out.println("pls enter your choice............");
-            int choice = scanner.nextInt();
-            boolean isExit = false;
-            switch (choice){
-                case 1:
-                    System.out.println("login");
-                    break;
-                case 2:
-                    System.out.println("signup");
-                    break;
-                case 3:
-                    System.out.println("Have a nice day:)...");
-                    isExit= true;
-                    break;
-                default:
-                    System.out.println("Invalid choice");
-                    numberOfAttempts++;
-            }
-            if (isExit) break;
+    public void createAccount(Account account) {
+        Objects.requireNonNull(account,"You can not pass a null to createAccount method");
 
-            if (numberOfAttempts>4){
-                throw new IllegalArgumentException("Many times of invalid choose pls contact with admin :(.......");
-            }
-        }
-
+        List<Account> accounts = eWalletSystem.getAccounts();
+        accounts.add(account);
+        eWalletSystem.setAccounts(accounts);
+        
     }
+
+    void getAccounts(){
+        for (Account account : eWalletSystem.getAccounts()){
+            System.out.println("--------------Account Info--------------");
+            System.out.println(account.getUserName());
+            System.out.println(account.getPassword());
+            System.out.println(account.getAge());
+            System.out.println(account.getBalance());
+            System.out.println(account.getPhoneNumber());
+            System.out.println("---------------------------------------");
+        }
+    }
+    
 }
