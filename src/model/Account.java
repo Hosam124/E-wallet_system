@@ -15,6 +15,7 @@ public class Account {
         this.password = password;
         this.age = age;
         this.phoneNumber = phoneNumber;
+        this.balance = 0;
     }
 
     public Account(String userName, String password) {
