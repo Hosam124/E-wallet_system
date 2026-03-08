@@ -11,5 +11,6 @@ public interface ValidationService {
     boolean isAmountValid(double amount);
     boolean isAccountExit(String userName);
     boolean isBalanceEnough(double amount, Account account);
+    boolean isCorrectPassword(Account account , String password);
 
 }

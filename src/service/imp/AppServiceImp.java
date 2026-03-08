@@ -127,10 +127,10 @@ public class AppServiceImp implements AppService {
                     transfer(account);
                     break;
                 case 4:
-                    System.out.println("Show account details");
+
                     break;
                 case 5:
-                    System.out.println("Change password");
+                    changePassword(account);
                     break;
                 case 6:
                     System.out.println("Have a nice day:)...");
@@ -210,7 +210,27 @@ public class AppServiceImp implements AppService {
         if (validationServiceImp.isBalanceEnough(transferAmount,account)){
             accountServiceImp.transferMoney(account.getUserName(),destinationUserName,transferAmount);
         }
+    }
 
+
+    private void changePassword(Account account){
+        String oldPassword;
+        do {
+            System.out.println("Enter your old password: ");
+            oldPassword = scanner.nextLine().trim();
+        }while (!validationServiceImp.isCorrectPassword(account,oldPassword));
+
+        String newPassword;
+        do {
+            System.out.println("Enter your new password: ");
+            newPassword = scanner.nextLine().trim();
+            if (oldPassword.equals(newPassword)) {
+                System.out.println("You can not use you old password as a new password");
+            }
+        }while (!validationServiceImp.isPasswordValid(newPassword) || oldPassword.equals(newPassword));
+
+        accountServiceImp.updatePassword(account,newPassword);
+        accountServiceImp.getAccounts();
     }
 
 }

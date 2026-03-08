@@ -4,7 +4,6 @@ import model.Account;
 import model.EWalletSystem;
 import service.AccountService;
 
-import javax.sql.rowset.serial.SerialStruct;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -76,20 +75,29 @@ public class AccountServiceImp implements AccountService {
         accounts.stream()
                 .filter(acc -> acc.getUserName().equals(senderUsername))
                 .findFirst()
-                .ifPresent(sender -> {
+                .ifPresent(sender -> accounts.stream()
+                        .filter(acc -> acc.getUserName().equals(receiverUsername))
+                        .findFirst()
+                        .ifPresent(receiver -> {
 
-                    accounts.stream()
-                            .filter(acc -> acc.getUserName().equals(receiverUsername))
-                            .findFirst()
-                            .ifPresent(receiver -> {
+                            sender.setBalance(sender.getBalance() - transferAmount);
+                            receiver.setBalance(receiver.getBalance() + transferAmount);
 
-                                sender.setBalance(sender.getBalance() - transferAmount);
-                                receiver.setBalance(receiver.getBalance() + transferAmount);
+                            System.out.println("Transfer successful!");
+                            System.out.println("Your new balance: " + sender.getBalance());
+                        }));
+    }
 
-                                System.out.println("Transfer successful!");
-                                System.out.println("Your new balance: " + sender.getBalance());
-                            });
-                });
+    @Override
+    public void updatePassword(Account account, String newPassword) {
+        List<Account> accounts = eWalletSystem.getAccounts();
+
+        accounts.stream()
+                .filter(acc -> acc.getUserName().equals(account.getUserName()))
+                .findFirst()
+                .ifPresent(acc -> acc.setPassword(newPassword));
+
+        System.out.println("Password updated successfully.");
     }
 
 

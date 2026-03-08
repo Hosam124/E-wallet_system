@@ -97,6 +97,15 @@ public class ValidationServiceImp implements ValidationService {
         return true;
     }
 
+    @Override
+    public boolean isCorrectPassword(Account account, String password) {
+        if (!account.getPassword().equals(password)){
+            System.out.println("This is a wrong password.");
+            return false;
+        }
+        return true;
+    }
+
     private boolean isPhoneNumberExist(String phoneNumber){
         List<Account> accounts = eWalletSystem.getAccounts();
         Optional<Account> optionalAccount = accounts.stream()
