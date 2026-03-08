@@ -127,7 +127,7 @@ public class AppServiceImp implements AppService {
                     transfer(account);
                     break;
                 case 4:
-
+                    showAccountDetails(account);
                     break;
                 case 5:
                     changePassword(account);
@@ -230,7 +230,16 @@ public class AppServiceImp implements AppService {
         }while (!validationServiceImp.isPasswordValid(newPassword) || oldPassword.equals(newPassword));
 
         accountServiceImp.updatePassword(account,newPassword);
-        accountServiceImp.getAccounts();
+    }
+
+    private void showAccountDetails(Account account){
+        System.out.println("--------------Account Info--------------");
+        System.out.println("User Name:      " + account.getUserName());
+        System.out.println("Password:       ******");
+        System.out.println("Age:            " + account.getAge());
+        System.out.println("Balance:        " + account.getBalance());
+        System.out.println("Phone Number:   " + account.getPhoneNumber());
+        System.out.println("---------------------------------------");
     }
 
 }
