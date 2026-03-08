@@ -1,6 +1,7 @@
 package service.imp;
 
 import model.Account;
+import model.EWalletSystem;
 import service.AppService;
 
 import java.util.Objects;
@@ -8,9 +9,14 @@ import java.util.Scanner;
 
 public class AppServiceImp implements AppService {
 
-    private AccountServiceImp accountServiceImp = new AccountServiceImp();
+    private final AccountServiceImp accountServiceImp ;
+    private final ValidationServiceImp validationServiceImp ;
     private final Scanner scanner = new Scanner(System.in);
 
+    public AppServiceImp(EWalletSystem eWalletSystem) {
+        validationServiceImp = new ValidationServiceImp(eWalletSystem);
+        accountServiceImp = new AccountServiceImp(eWalletSystem);
+    }
 
     @Override
     public void startProgram() {
@@ -20,7 +26,7 @@ public class AppServiceImp implements AppService {
         while (true){
             System.out.println("1) Login        2) Signup       3) Exit");
             System.out.println("pls enter your choice............");
-            int choice = scanner.nextInt();
+            int choice = Integer.parseInt(scanner.nextLine());
             boolean isExit = false;
             switch (choice){
                 case 1:
@@ -48,14 +54,29 @@ public class AppServiceImp implements AppService {
 
     @Override
     public void signup() {
-        System.out.println("Enter your name : ");
-        String userName = scanner.next();
-        System.out.println("Enter your password:");
-        String password = scanner.next();
-        System.out.println("Enter your age:");
-        double age = scanner.nextDouble();
-        System.out.println("Enter your phone number:");
-        String phoneNumber = scanner.next();
+        String userName;
+        do {
+            System.out.println("Enter your name : ");
+            userName = scanner.nextLine().trim();
+        }while (!validationServiceImp.isUserNameValid(userName));
+
+        String password;
+        do {
+            System.out.println("Enter your password:");
+            password = scanner.nextLine().trim();
+        }while (!validationServiceImp.isPasswordValid(password));
+
+        double age;
+        do {
+            System.out.println("Enter your age:");
+            age = Double.parseDouble(scanner.nextLine());
+        }while (!validationServiceImp.isAgeValid(age));
+
+        String phoneNumber;
+        do {
+            System.out.println("Enter your phone number:");
+            phoneNumber = scanner.nextLine().trim();
+        }while (!validationServiceImp.isPhoneNumberValid(phoneNumber));
 
         Account account = new Account(userName,password,age,phoneNumber);
 

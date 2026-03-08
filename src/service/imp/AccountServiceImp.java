@@ -10,7 +10,11 @@ import java.util.Optional;
 
 public class AccountServiceImp implements AccountService {
 
-    private EWalletSystem eWalletSystem;
+    private final EWalletSystem eWalletSystem;
+
+    public AccountServiceImp(EWalletSystem eWalletSystem) {
+        this.eWalletSystem = eWalletSystem;
+    }
 
     @Override
     public void createAccount(Account account) {
@@ -22,14 +26,14 @@ public class AccountServiceImp implements AccountService {
         
     }
 
-    void getAccounts(){
+    public void getAccounts(){
         for (Account account : eWalletSystem.getAccounts()){
             System.out.println("--------------Account Info--------------");
-            System.out.println(account.getUserName());
-            System.out.println(account.getPassword());
-            System.out.println(account.getAge());
-            System.out.println(account.getBalance());
-            System.out.println(account.getPhoneNumber());
+            System.out.println("User Name:      "+account.getUserName());
+            System.out.println("Password:       "+account.getPassword());
+            System.out.println("Age:            "+account.getAge());
+            System.out.println("Balance:        "+account.getBalance());
+            System.out.println("Phone Number:   "+account.getPhoneNumber());
             System.out.println("---------------------------------------");
         }
     }
