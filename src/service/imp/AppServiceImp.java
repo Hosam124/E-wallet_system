@@ -30,7 +30,7 @@ public class AppServiceImp implements AppService {
             boolean isExit = false;
             switch (choice){
                 case 1:
-                    System.out.println("login");
+                    login();
                     break;
                 case 2:
                     signup();
@@ -84,4 +84,26 @@ public class AppServiceImp implements AppService {
 
 
     }
+
+    @Override
+    public void login() {
+        String userName , password;
+        Account loginAccount;
+        int numberOfAttempts = 0;
+        do {
+            System.out.println("Enter your name : ");
+            userName = scanner.nextLine().trim();
+            System.out.println("Enter your password:");
+            password = scanner.nextLine().trim();
+            loginAccount = accountServiceImp.getAccountByUserNameAndPassword(userName,password);
+            numberOfAttempts++;
+            if (numberOfAttempts>4) {
+                throw new IllegalArgumentException("Many times of invalid user name or password pls try later :(.......");
+            }
+        }while (loginAccount == null);
+
+
+
+    }
+
 }

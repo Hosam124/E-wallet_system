@@ -4,6 +4,7 @@ import model.Account;
 import model.EWalletSystem;
 import service.AccountService;
 
+import javax.sql.rowset.serial.SerialStruct;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -25,6 +26,16 @@ public class AccountServiceImp implements AccountService {
         eWalletSystem.setAccounts(accounts);
         
     }
+
+    @Override
+    public Account getAccountByUserNameAndPassword(String userName, String password) {
+        List<Account> accounts = eWalletSystem.getAccounts();
+        Optional<Account> optionalAccount = accounts.stream()
+                .filter(acc -> acc.getUserName().equals(userName) && acc.getPassword().equals(password))
+                .findAny();
+        return optionalAccount.orElse(null);
+    }
+
 
     public void getAccounts(){
         for (Account account : eWalletSystem.getAccounts()){
