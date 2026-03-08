@@ -6,4 +6,5 @@ public interface ValidationService {
     boolean isPasswordValid(String password);
     boolean isAgeValid(double age);
     boolean isPhoneNumberValid(String phoneNumber);
+    boolean isAmountValid(double amount);
 }

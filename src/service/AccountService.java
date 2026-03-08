@@ -8,4 +8,6 @@ public interface AccountService {
 
     void createAccount(Account account);
     Account getAccountByUserNameAndPassword(String userName, String password);
+    boolean isAccountExit(String userName);
+    void increaseBalance(Account account , double amount);
 }

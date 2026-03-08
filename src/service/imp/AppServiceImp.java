@@ -52,8 +52,8 @@ public class AppServiceImp implements AppService {
 
     }
 
-    @Override
-    public void signup() {
+
+    private void signup() {
         String userName;
         do {
             System.out.println("Enter your name : ");
@@ -85,8 +85,8 @@ public class AppServiceImp implements AppService {
 
     }
 
-    @Override
-    public void login() {
+
+    private void login() {
         String userName , password;
         Account loginAccount;
         int numberOfAttempts = 0;
@@ -106,8 +106,8 @@ public class AppServiceImp implements AppService {
 
     }
 
-    @Override
-    public void showUserMainMenu(Account account) {
+
+    private void showUserMainMenu(Account account) {
         System.out.println("Welcome " + account.getUserName());
         System.out.println();
         int numberOfAttempts = 0;
@@ -118,7 +118,7 @@ public class AppServiceImp implements AppService {
             boolean isExit = false;
             switch (choice){
                 case 1:
-                    System.out.println("Deposit");
+                    deposit(account);
                     break;
                 case 2:
                     System.out.println("Withdraw");
@@ -147,6 +147,24 @@ public class AppServiceImp implements AppService {
             }
 
         }
+    }
+
+
+    private void deposit(Account account) {
+        double depositAmount;
+        do {
+            System.out.println("Enter deposit amount: ");
+            depositAmount = Double.parseDouble(scanner.nextLine());
+        }while (!validationServiceImp.isAmountValid(depositAmount));
+
+        if (!accountServiceImp.isAccountExit(account.getUserName())){
+            System.out.println("This account is not exist.");
+            return;
+        }
+
+        accountServiceImp.increaseBalance(account,depositAmount);
+
+
     }
 
 }

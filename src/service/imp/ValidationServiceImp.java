@@ -70,6 +70,16 @@ public class ValidationServiceImp implements ValidationService {
 
         return true;
     }
+
+    @Override
+    public boolean isAmountValid(double amount) {
+        if (amount<0){
+            System.out.println("The amount can not be negative.");
+            return false;
+        }
+        return true;
+    }
+
     private boolean isPhoneNumberExist(String phoneNumber){
         List<Account> accounts = eWalletSystem.getAccounts();
         Optional<Account> optionalAccount = accounts.stream()
