@@ -24,7 +24,7 @@ public class AppServiceImp implements AppService {
 
         int numberOfAttempts = 0;
         while (true){
-            System.out.println("1) Login        2) Signup       3) Exit");
+            System.out.println("1) Login\n2) Signup\n3) Exit");
             System.out.println("pls enter your choice............");
             int choice = Integer.parseInt(scanner.nextLine());
             boolean isExit = false;
@@ -102,8 +102,51 @@ public class AppServiceImp implements AppService {
             }
         }while (loginAccount == null);
 
+        showUserMainMenu(loginAccount);
 
+    }
 
+    @Override
+    public void showUserMainMenu(Account account) {
+        System.out.println("Welcome " + account.getUserName());
+        System.out.println();
+        int numberOfAttempts = 0;
+        while (true){
+            System.out.println("1) Deposit\n2) Withdraw\n3) Transfer\n4) Show account details\n5) Change password\n6) Logout");
+            System.out.println("pls enter your choice............");
+            int choice = Integer.parseInt(scanner.nextLine());
+            boolean isExit = false;
+            switch (choice){
+                case 1:
+                    System.out.println("Deposit");
+                    break;
+                case 2:
+                    System.out.println("Withdraw");
+                    break;
+                case 3:
+                    System.out.println("Transfer");
+                    break;
+                case 4:
+                    System.out.println("Show account details");
+                    break;
+                case 5:
+                    System.out.println("Change password");
+                    break;
+                case 6:
+                    System.out.println("Have a nice day:)...");
+                    isExit= true;
+                    break;
+                default:
+                    System.out.println("Invalid choice");
+                    numberOfAttempts++;
+            }
+            if (isExit) break;
+
+            if (numberOfAttempts>4){
+                throw new IllegalArgumentException("Many times of invalid choose pls contact with admin :(.......");
+            }
+
+        }
     }
 
 }

@@ -24,6 +24,7 @@ public class AccountServiceImp implements AccountService {
         List<Account> accounts = eWalletSystem.getAccounts();
         accounts.add(account);
         eWalletSystem.setAccounts(accounts);
+        System.out.println("Account created successfully.....:)");
         
     }
 
@@ -33,7 +34,11 @@ public class AccountServiceImp implements AccountService {
         Optional<Account> optionalAccount = accounts.stream()
                 .filter(acc -> acc.getUserName().equals(userName) && acc.getPassword().equals(password))
                 .findAny();
-        return optionalAccount.orElse(null);
+        if (optionalAccount.isPresent()) return optionalAccount.get();
+        else {
+            System.out.println("Wrong user name or password");
+            return null;
+        }
     }
 
 
