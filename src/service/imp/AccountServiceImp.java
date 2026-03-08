@@ -41,13 +41,7 @@ public class AccountServiceImp implements AccountService {
         }
     }
 
-    @Override
-    public boolean isAccountExit(String userName) {
-        List<Account> accounts = eWalletSystem.getAccounts();
-        return accounts.stream()
-                .anyMatch(acc -> acc.getUserName().equals(userName));
 
-    }
 
     @Override
     public void increaseBalance(Account account, double amount) {
@@ -59,6 +53,19 @@ public class AccountServiceImp implements AccountService {
                 .ifPresent(acc -> {
                     acc.setBalance(acc.getBalance() + amount);
                     System.out.println("You deposited successfully! New balance: " + acc.getBalance());
+                });
+    }
+
+    @Override
+    public void deductBalance(Account account, double amount) {
+        List<Account> accounts = eWalletSystem.getAccounts();
+
+        accounts.stream()
+                .filter(acc -> acc.getUserName().equals(account.getUserName()))
+                .findFirst()
+                .ifPresent(acc -> {
+                    acc.setBalance(acc.getBalance() - amount);
+                    System.out.println("Withdrawal successful! New balance: " + acc.getBalance());
                 });
     }
 

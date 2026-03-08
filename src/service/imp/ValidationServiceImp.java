@@ -80,6 +80,23 @@ public class ValidationServiceImp implements ValidationService {
         return true;
     }
 
+    @Override
+    public boolean isAccountExit(String userName) {
+        List<Account> accounts = eWalletSystem.getAccounts();
+        return accounts.stream()
+                .anyMatch(acc -> acc.getUserName().equals(userName));
+
+    }
+
+    @Override
+    public boolean isBalanceEnough(double amount, Account account) {
+        if (account.getBalance()<amount){
+            System.out.println("Your balance is not enough.");
+            return false;
+        }
+        return true;
+    }
+
     private boolean isPhoneNumberExist(String phoneNumber){
         List<Account> accounts = eWalletSystem.getAccounts();
         Optional<Account> optionalAccount = accounts.stream()

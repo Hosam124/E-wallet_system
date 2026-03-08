@@ -121,7 +121,7 @@ public class AppServiceImp implements AppService {
                     deposit(account);
                     break;
                 case 2:
-                    System.out.println("Withdraw");
+                    withdraw(account);
                     break;
                 case 3:
                     System.out.println("Transfer");
@@ -157,7 +157,7 @@ public class AppServiceImp implements AppService {
             depositAmount = Double.parseDouble(scanner.nextLine());
         }while (!validationServiceImp.isAmountValid(depositAmount));
 
-        if (!accountServiceImp.isAccountExit(account.getUserName())){
+        if (!validationServiceImp.isAccountExit(account.getUserName())){
             System.out.println("This account is not exist.");
             return;
         }
@@ -165,6 +165,21 @@ public class AppServiceImp implements AppService {
         accountServiceImp.increaseBalance(account,depositAmount);
 
 
+    }
+    private void withdraw (Account account){
+        double withdrawAmount;
+        do {
+            System.out.println("Enter withdraw amount: ");
+            withdrawAmount = Double.parseDouble(scanner.nextLine());
+        }while (!validationServiceImp.isAmountValid(withdrawAmount));
+
+        if (!validationServiceImp.isAccountExit(account.getUserName())){
+            System.out.println("This account is not exist.");
+            return;
+        }
+        if (validationServiceImp.isBalanceEnough(withdrawAmount,account)){
+            accountServiceImp.deductBalance(account,withdrawAmount);
+        }
     }
 
 }
