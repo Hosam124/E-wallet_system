@@ -10,4 +10,5 @@ public interface AccountService {
     Account getAccountByUserNameAndPassword(String userName, String password);
     void increaseBalance(Account account, double amount);
     void deductBalance(Account account, double amount);
+    void transferMoney(String senderUsername , String receiverUsername , double transferAmount);
 }

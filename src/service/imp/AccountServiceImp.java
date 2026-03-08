@@ -69,6 +69,29 @@ public class AccountServiceImp implements AccountService {
                 });
     }
 
+    @Override
+    public void transferMoney(String senderUsername, String receiverUsername, double transferAmount) {
+        List<Account> accounts = eWalletSystem.getAccounts();
+
+        accounts.stream()
+                .filter(acc -> acc.getUserName().equals(senderUsername))
+                .findFirst()
+                .ifPresent(sender -> {
+
+                    accounts.stream()
+                            .filter(acc -> acc.getUserName().equals(receiverUsername))
+                            .findFirst()
+                            .ifPresent(receiver -> {
+
+                                sender.setBalance(sender.getBalance() - transferAmount);
+                                receiver.setBalance(receiver.getBalance() + transferAmount);
+
+                                System.out.println("Transfer successful!");
+                                System.out.println("Your new balance: " + sender.getBalance());
+                            });
+                });
+    }
+
 
     public void getAccounts(){
         for (Account account : eWalletSystem.getAccounts()){

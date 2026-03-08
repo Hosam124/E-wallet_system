@@ -124,7 +124,7 @@ public class AppServiceImp implements AppService {
                     withdraw(account);
                     break;
                 case 3:
-                    System.out.println("Transfer");
+                    transfer(account);
                     break;
                 case 4:
                     System.out.println("Show account details");
@@ -154,7 +154,7 @@ public class AppServiceImp implements AppService {
         double depositAmount;
         do {
             System.out.println("Enter deposit amount: ");
-            depositAmount = Double.parseDouble(scanner.nextLine());
+            depositAmount = Double.parseDouble(scanner.nextLine().trim());
         }while (!validationServiceImp.isAmountValid(depositAmount));
 
         if (!validationServiceImp.isAccountExit(account.getUserName())){
@@ -166,11 +166,13 @@ public class AppServiceImp implements AppService {
 
 
     }
+
+
     private void withdraw (Account account){
         double withdrawAmount;
         do {
             System.out.println("Enter withdraw amount: ");
-            withdrawAmount = Double.parseDouble(scanner.nextLine());
+            withdrawAmount = Double.parseDouble(scanner.nextLine().trim());
         }while (!validationServiceImp.isAmountValid(withdrawAmount));
 
         if (!validationServiceImp.isAccountExit(account.getUserName())){
@@ -180,6 +182,35 @@ public class AppServiceImp implements AppService {
         if (validationServiceImp.isBalanceEnough(withdrawAmount,account)){
             accountServiceImp.deductBalance(account,withdrawAmount);
         }
+    }
+
+
+    private void transfer(Account account){
+        System.out.println("Enter destination user name: ");
+        String destinationUserName = scanner.nextLine().trim();
+        if (!validationServiceImp.isAccountExit(destinationUserName)){
+            System.out.println("This destination account does not exist.");
+            return;
+        }
+        if (!validationServiceImp.isAccountExit(account.getUserName())){
+            System.out.println("This account is not exist.");
+            return;
+        }
+        if (destinationUserName.equals(account.getUserName())){
+            System.out.println("You can not transfer to yourself.");
+            return;
+        }
+
+        double transferAmount;
+        do {
+            System.out.println("Enter transfer amount: ");
+            transferAmount = Double.parseDouble(scanner.nextLine().trim());
+        }while (!validationServiceImp.isAmountValid(transferAmount));
+
+        if (validationServiceImp.isBalanceEnough(transferAmount,account)){
+            accountServiceImp.transferMoney(account.getUserName(),destinationUserName,transferAmount);
+        }
+
     }
 
 }
