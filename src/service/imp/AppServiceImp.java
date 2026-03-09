@@ -11,11 +11,13 @@ public class AppServiceImp implements AppService {
 
     private final AccountServiceImp accountServiceImp ;
     private final ValidationServiceImp validationServiceImp ;
+    private final AdminServiceImp adminServiceImp;
     private final Scanner scanner = new Scanner(System.in);
 
     public AppServiceImp(EWalletSystem eWalletSystem) {
         validationServiceImp = new ValidationServiceImp(eWalletSystem);
         accountServiceImp = new AccountServiceImp(eWalletSystem);
+        adminServiceImp = new AdminServiceImp(eWalletSystem);
     }
 
     @Override
@@ -101,8 +103,12 @@ public class AppServiceImp implements AppService {
                 throw new IllegalArgumentException("Many times of invalid user name or password pls try later :(.......");
             }
         }while (loginAccount == null);
-
-        showUserMainMenu(loginAccount);
+        if (loginAccount.isAdmin()){
+            showAdminPanel(loginAccount);
+        }
+        else {
+            showUserMainMenu(loginAccount);
+        }
 
     }
 
@@ -147,6 +153,41 @@ public class AppServiceImp implements AppService {
 
             if (numberOfAttempts>4){
                 throw new IllegalArgumentException("Many times of invalid choose pls contact with admin :(.......");
+            }
+
+        }
+    }
+
+    public void showAdminPanel(Account account){
+        System.out.println("---------------------Welcome To Admin Menu---------------------");
+        int numberOfAttempts = 0;
+        while (true){
+            System.out.println("1) Show all accounts\n2) Delete account\n3) Inactivate account\n4) Logout");
+            System.out.println("pls enter your choice............");
+            int choice = Integer.parseInt(scanner.nextLine());
+            boolean isExit = false;
+            switch (choice){
+                case 1:
+                    adminServiceImp.showAllAccounts();
+                    break;
+                case 2:
+                    System.out.println();
+                    break;
+                case 3:
+                    System.out.println();
+                    break;
+                case 4:
+                    System.out.println("Have a nice day:)...");
+                    isExit= true;
+                    break;
+                default:
+                    System.out.println("Invalid choice");
+                    numberOfAttempts++;
+            }
+            if (isExit) break;
+
+            if (numberOfAttempts>4){
+                throw new IllegalArgumentException("Many times of invalid choose pls try later :(.......");
             }
 
         }
@@ -236,13 +277,7 @@ public class AppServiceImp implements AppService {
     }
 
     private void showAccountDetails(Account account){
-        System.out.println("--------------Account Info--------------");
-        System.out.println("User Name:      " + account.getUserName());
-        System.out.println("Password:       ******");
-        System.out.println("Age:            " + account.getAge());
-        System.out.println("Balance:        " + account.getBalance());
-        System.out.println("Phone Number:   " + account.getPhoneNumber());
-        System.out.println("---------------------------------------");
+        AdminServiceImp.printAccount(account);
     }
 
     private void  showTransactionHistory(Account account){

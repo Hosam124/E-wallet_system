@@ -7,6 +7,9 @@ public class EWalletSystem {
     private final String name = "E-wallet";
     private  List<Account> accounts = new ArrayList<>();
 
+    public EWalletSystem() {
+        this.accounts.add(new Account("IAM","IAM123",24,"01018287319",true));
+    }
 
     public String getName() {
         return name;

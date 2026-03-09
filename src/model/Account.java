@@ -10,6 +10,7 @@ public class Account {
     private double balance;
     private String phoneNumber;
     private List<String> transactionHistory;
+    private boolean isAdmin;
 
     public Account() {
     }
@@ -21,6 +22,25 @@ public class Account {
         this.phoneNumber = phoneNumber;
         this.balance = 0;
         this.transactionHistory = new ArrayList<>();
+        this.isAdmin = false;
+    }
+
+    public Account(String userName, String password, double age, String phoneNumber, boolean isAdmin) {
+        this(userName,password,age,phoneNumber);
+        this.isAdmin = isAdmin;
+    }
+
+    public Account(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 
     public List<String> getTransactionHistory() {
@@ -29,11 +49,6 @@ public class Account {
 
     public void setTransactionHistory(List<String> transactionHistory) {
         this.transactionHistory = transactionHistory;
-    }
-
-    public Account(String userName, String password) {
-        this.userName = userName;
-        this.password = password;
     }
 
     public String getUserName() {
