@@ -171,7 +171,7 @@ public class AppServiceImp implements AppService {
                     adminServiceImp.showAllAccounts();
                     break;
                 case 2:
-                    System.out.println();
+                    deleteAccount();
                     break;
                 case 3:
                     System.out.println();
@@ -284,6 +284,16 @@ public class AppServiceImp implements AppService {
         for (String transaction : account.getTransactionHistory()){
             System.out.println(transaction);
         }
+    }
+
+    private void deleteAccount(){
+        System.out.println("Enter account user name: ");
+        String accountUserName = scanner.nextLine().trim();
+        if (!validationServiceImp.isAccountExit(accountUserName)){
+            System.out.println("This account does not exist.");
+            return;
+        }
+        adminServiceImp.deleteAccount(accountUserName);
     }
 
 }

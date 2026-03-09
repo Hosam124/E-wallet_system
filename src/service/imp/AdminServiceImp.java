@@ -4,6 +4,8 @@ import model.Account;
 import model.EWalletSystem;
 import service.AdminService;
 
+import java.util.List;
+
 public class AdminServiceImp implements AdminService {
 
     private final EWalletSystem eWalletSystem;
@@ -16,6 +18,18 @@ public class AdminServiceImp implements AdminService {
     public void showAllAccounts() {
         eWalletSystem.getAccounts()
                 .forEach(AdminServiceImp::printAccount);
+    }
+
+    @Override
+    public void deleteAccount(String userName) {
+        List<Account> accounts = eWalletSystem.getAccounts();
+
+        List<Account> updatedAccounts = accounts.stream()
+                .filter(acc -> !acc.getUserName().equals(userName))
+                .toList();
+        eWalletSystem.setAccounts(updatedAccounts);
+
+        System.out.println("Account deleted successfully.");
     }
 
     static void printAccount(Account account) {
