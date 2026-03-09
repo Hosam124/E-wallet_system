@@ -11,6 +11,7 @@ public class Account {
     private String phoneNumber;
     private List<String> transactionHistory;
     private boolean isAdmin;
+    private boolean isActive;
 
     public Account() {
     }
@@ -23,6 +24,7 @@ public class Account {
         this.balance = 0;
         this.transactionHistory = new ArrayList<>();
         this.isAdmin = false;
+        this.isActive = true;
     }
 
     public Account(String userName, String password, double age, String phoneNumber, boolean isAdmin) {
@@ -49,6 +51,14 @@ public class Account {
 
     public void setTransactionHistory(List<String> transactionHistory) {
         this.transactionHistory = transactionHistory;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public String getUserName() {

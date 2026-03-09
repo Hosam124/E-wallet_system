@@ -32,6 +32,47 @@ public class AdminServiceImp implements AdminService {
         System.out.println("Account deleted successfully.");
     }
 
+    @Override
+    public void inActivateAccount(String userName) {
+        if (!checkActivity(userName)){
+            System.out.println("This account is already inactivated.");
+            return;
+        }
+        changeActivity(userName,false);
+        System.out.println("The account inactivated successfully.");
+
+    }
+
+    @Override
+    public void activateAccount(String userName) {
+        if (checkActivity(userName)){
+            System.out.println("This account is already activated.");
+            return;
+        }
+        changeActivity(userName,true);
+        System.out.println("The account inactivated successfully.");
+    }
+
+    private boolean checkActivity(String userName){
+        List<Account> accounts = eWalletSystem.getAccounts();
+
+        Account account = accounts.stream()
+                .filter(acc -> acc.getUserName().equals(userName))
+                .findFirst()
+                .orElse(null);
+
+        assert account != null;
+        return account.isActive();
+    }
+
+    private void changeActivity(String userName,boolean isActivity){
+        eWalletSystem.getAccounts()
+                .stream()
+                .filter(acc -> acc.getUserName().equals(userName))
+                .findFirst()
+                .ifPresent(acc -> acc.setActive(isActivity));
+    }
+
     static void printAccount(Account account) {
         System.out.println("--------------Account Info--------------");
         System.out.println("User Name:      " + account.getUserName());
@@ -39,6 +80,7 @@ public class AdminServiceImp implements AdminService {
         System.out.println("Age:            " + account.getAge());
         System.out.println("Balance:        " + account.getBalance());
         System.out.println("Phone Number:   " + account.getPhoneNumber());
+        System.out.println("Is Active       " + account.isActive());
         System.out.println("---------------------------------------");
     }
 }

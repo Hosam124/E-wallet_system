@@ -6,6 +6,7 @@ import service.AppService;
 
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 public class AppServiceImp implements AppService {
 
@@ -107,6 +108,10 @@ public class AppServiceImp implements AppService {
             showAdminPanel(loginAccount);
         }
         else {
+            if (!loginAccount.isActive()){
+                System.out.println("This account is inactivated contact with admin if you need activation.");
+                return;
+            }
             showUserMainMenu(loginAccount);
         }
 
@@ -162,7 +167,7 @@ public class AppServiceImp implements AppService {
         System.out.println("---------------------Welcome To Admin Menu---------------------");
         int numberOfAttempts = 0;
         while (true){
-            System.out.println("1) Show all accounts\n2) Delete account\n3) Inactivate account\n4) Logout");
+            System.out.println("1) Show all accounts\n2) Delete account\n3) Inactivate account\n4) Activate account\n5) Logout");
             System.out.println("pls enter your choice............");
             int choice = Integer.parseInt(scanner.nextLine());
             boolean isExit = false;
@@ -174,9 +179,12 @@ public class AppServiceImp implements AppService {
                     deleteAccount();
                     break;
                 case 3:
-                    System.out.println();
+                    inactivateAccount();
                     break;
                 case 4:
+                    activateAccount();
+                    break;
+                case 5:
                     System.out.println("Have a nice day:)...");
                     isExit= true;
                     break;
@@ -286,14 +294,30 @@ public class AppServiceImp implements AppService {
         }
     }
 
-    private void deleteAccount(){
+    private void handleAccountAction(Consumer<String> action) {
         System.out.println("Enter account user name: ");
         String accountUserName = scanner.nextLine().trim();
-        if (!validationServiceImp.isAccountExit(accountUserName)){
+
+        if (!validationServiceImp.isAccountExit(accountUserName)) {
             System.out.println("This account does not exist.");
             return;
         }
-        adminServiceImp.deleteAccount(accountUserName);
+
+        action.accept(accountUserName);
     }
+
+    private void deleteAccount() {
+        handleAccountAction(adminServiceImp::deleteAccount);
+    }
+
+    private void inactivateAccount() {
+        handleAccountAction(adminServiceImp::inActivateAccount);
+    }
+
+    private void activateAccount() {
+        handleAccountAction(adminServiceImp::activateAccount);
+    }
+
+
 
 }
