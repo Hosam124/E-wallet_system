@@ -1,11 +1,15 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Account {
     private String userName;
     private String password;
     private double age;
     private double balance;
     private String phoneNumber;
+    private List<String> transactionHistory;
 
     public Account() {
     }
@@ -16,6 +20,15 @@ public class Account {
         this.age = age;
         this.phoneNumber = phoneNumber;
         this.balance = 0;
+        this.transactionHistory = new ArrayList<>();
+    }
+
+    public List<String> getTransactionHistory() {
+        return transactionHistory;
+    }
+
+    public void setTransactionHistory(List<String> transactionHistory) {
+        this.transactionHistory = transactionHistory;
     }
 
     public Account(String userName, String password) {

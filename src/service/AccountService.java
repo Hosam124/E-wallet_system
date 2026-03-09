@@ -12,4 +12,5 @@ public interface AccountService {
     void deductBalance(Account account, double amount);
     void transferMoney(String senderUsername , String receiverUsername , double transferAmount);
     void updatePassword(Account account , String newPassword);
+    void addTransactionHistory(Account account ,String message);
 }

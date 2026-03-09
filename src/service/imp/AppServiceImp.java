@@ -112,7 +112,7 @@ public class AppServiceImp implements AppService {
         System.out.println();
         int numberOfAttempts = 0;
         while (true){
-            System.out.println("1) Deposit\n2) Withdraw\n3) Transfer\n4) Show account details\n5) Change password\n6) Logout");
+            System.out.println("1) Deposit\n2) Withdraw\n3) Transfer\n4) Show account details\n5) Change password\n6) Show transaction history\n7) Logout");
             System.out.println("pls enter your choice............");
             int choice = Integer.parseInt(scanner.nextLine());
             boolean isExit = false;
@@ -133,6 +133,9 @@ public class AppServiceImp implements AppService {
                     changePassword(account);
                     break;
                 case 6:
+                    showTransactionHistory(account);
+                    break;
+                case 7:
                     System.out.println("Have a nice day:)...");
                     isExit= true;
                     break;
@@ -240,6 +243,12 @@ public class AppServiceImp implements AppService {
         System.out.println("Balance:        " + account.getBalance());
         System.out.println("Phone Number:   " + account.getPhoneNumber());
         System.out.println("---------------------------------------");
+    }
+
+    private void  showTransactionHistory(Account account){
+        for (String transaction : account.getTransactionHistory()){
+            System.out.println(transaction);
+        }
     }
 
 }

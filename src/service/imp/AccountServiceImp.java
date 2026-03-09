@@ -4,6 +4,8 @@ import model.Account;
 import model.EWalletSystem;
 import service.AccountService;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -24,6 +26,8 @@ public class AccountServiceImp implements AccountService {
         accounts.add(account);
         eWalletSystem.setAccounts(accounts);
         System.out.println("Account created successfully.....:)");
+
+        addTransactionHistory(account, "signup");
         
     }
 
@@ -33,7 +37,10 @@ public class AccountServiceImp implements AccountService {
         Optional<Account> optionalAccount = accounts.stream()
                 .filter(acc -> acc.getUserName().equals(userName) && acc.getPassword().equals(password))
                 .findAny();
-        if (optionalAccount.isPresent()) return optionalAccount.get();
+        if (optionalAccount.isPresent()){
+            addTransactionHistory(optionalAccount.get(),"login");
+            return optionalAccount.get();
+        }
         else {
             System.out.println("Wrong user name or password");
             return null;
@@ -53,6 +60,7 @@ public class AccountServiceImp implements AccountService {
                     acc.setBalance(acc.getBalance() + amount);
                     System.out.println("You deposited successfully! New balance: " + acc.getBalance());
                 });
+        addTransactionHistory(account, "Deposit " + amount);
     }
 
     @Override
@@ -66,6 +74,8 @@ public class AccountServiceImp implements AccountService {
                     acc.setBalance(acc.getBalance() - amount);
                     System.out.println("Withdrawal successful! New balance: " + acc.getBalance());
                 });
+
+        addTransactionHistory(account,"Withdraw " +amount);
     }
 
     @Override
@@ -86,6 +96,11 @@ public class AccountServiceImp implements AccountService {
                             System.out.println("Transfer successful!");
                             System.out.println("Your new balance: " + sender.getBalance());
                         }));
+
+        Optional<Account> senderAccount = accounts.stream()
+                                        .filter(acc -> acc.getUserName().equals(senderUsername))
+                                                .findFirst();
+        addTransactionHistory(senderAccount.get(),senderUsername + " transfer "+transferAmount+" to "+receiverUsername );
     }
 
     @Override
@@ -98,6 +113,17 @@ public class AccountServiceImp implements AccountService {
                 .ifPresent(acc -> acc.setPassword(newPassword));
 
         System.out.println("Password updated successfully.");
+    }
+
+    @Override
+    public void addTransactionHistory(Account account, String message) {
+        String transaction = message + " on " + LocalDate.now() + " at " + LocalTime.now();
+        List<Account> accounts = eWalletSystem.getAccounts();
+
+        accounts.stream()
+                .filter(acc -> acc.getUserName().equals(account.getUserName()))
+                .findFirst()
+                .ifPresent(acc -> acc.getTransactionHistory().add(transaction));
     }
 
 
