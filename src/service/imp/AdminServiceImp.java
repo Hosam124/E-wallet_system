@@ -4,7 +4,9 @@ import model.Account;
 import model.EWalletSystem;
 import service.AdminService;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AdminServiceImp implements AdminService {
 
@@ -26,7 +28,7 @@ public class AdminServiceImp implements AdminService {
 
         List<Account> updatedAccounts = accounts.stream()
                 .filter(acc -> !acc.getUserName().equals(userName))
-                .toList();
+                .collect(Collectors.toCollection(ArrayList::new));
         eWalletSystem.setAccounts(updatedAccounts);
 
         System.out.println("Account deleted successfully.");
